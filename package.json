@@ -18,7 +18,7 @@
   },
   "keywords": [],
   "author": "Roman Frolov <justcallmefrolov@gmail.com>",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "dependencies": {
     "big-integer": "1.6.41",
     "ethereumjs-abi": "0.6.6",
