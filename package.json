@@ -1,6 +1,6 @@
 {
   "name": "eth-json-rpc",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Lightweight wrapper library on top of Ethereum JSON RPC.",
   "main": "index.js",
   "directories": {
@@ -31,7 +31,7 @@
     "chance": "^1.0.18",
     "ganache-cli": "^6.2.5",
     "http-server": "^0.11.1",
-    "jsdoc": "^3.6.2",
+    "jsdoc": "^3.6.3",
     "mocha": "^5.2.0",
     "nyc": "^14.1.1"
   }
