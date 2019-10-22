@@ -9,9 +9,9 @@
 require('chai').should();
 
 const Abi       = require('ethereumjs-abi');
-const decoder   = require('lib/decoder');
-const utils     = require('lib/helpers');
-const generator = require('test/helpers/generator');
+const decoder   = require('../../lib/decoder');
+const utils     = require('../../lib/helpers');
+const generator = require('../helpers/generator');
 
 /**
  * Encode original data and decode it.

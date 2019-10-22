@@ -9,7 +9,7 @@
 require('chai').should();
 
 const ganache  = require('ganache-cli');
-const contract = require('test/resources/testContract');
+const contract = require('../resources/testContract');
 
 /**
  * Test RPC port.
@@ -18,7 +18,7 @@ const contract = require('test/resources/testContract');
  */
 const TEST_PORT = +process.env.TEST_PORT || 9545;
 
-const ethRpc = require('index')(`http://localhost:${TEST_PORT}`);
+const ethRpc = require('../../lib/eth-json-rpc')(`http://localhost:${TEST_PORT}`);
 
 /**
  * Test account private key.
