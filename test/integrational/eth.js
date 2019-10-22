@@ -9,7 +9,7 @@
 require('chai').should();
 
 const ganache  = require('ganache-cli');
-const contract = require('test/resources/testContract');
+const contract = require('../resources/testContract');
 
 /**
  * Test RPC port.
