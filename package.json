@@ -8,7 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "NODE_PATH=. mocha test",
+    "test": "mocha",
     "docs": "jsdoc -c .jsdocrc",
     "http-docs": "PORT=${PORT:-8080}; http-server -p $PORT docs"
   },
