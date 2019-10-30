@@ -78,6 +78,10 @@ describe('eth', () => {
         transactionHash.should.be.equal('0xf215270841a77eb9757903e99786897a6aab784ff1041438c5ff5a50fadc0cde');
 
         contractAddress = (await ethRpc.eth.getTransactionReceipt(transactionHash)).contractAddress;
+
+        const addressIsValid = ethRpc.utils.isValidAddress(contractAddress);
+
+        addressIsValid.should.be.equal(true);
     });
 
     it('[eth_getCode]', async () => {
@@ -98,6 +102,13 @@ describe('eth', () => {
         const transactionHash = await ethRpc.eth.transaction('mint(uint256)', contractAddress, [100], PRIVATE_KEY);
 
         transactionHash.should.be.equal('0x36af4c76dd7f2a204b1a340fb6327ae8ff9e2efe2f974b054d3a36314635a10c');
+    });
+
+    it('[eth_getBlockByNumber,eth_getLogs] compare responses of batch RPC requests', async () => {
+        const blocksFromRange = await ethRpc.eth.getBlocks(0, 2);
+        const blocksFromArray = await ethRpc.eth.getBlocksFromArray([0, 1]);
+
+        blocksFromRange.should.be.deep.equal(blocksFromArray);
     });
 
     after('close test RPC', () => {

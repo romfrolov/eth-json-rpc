@@ -204,7 +204,8 @@ Eth.prototype.getBlocks = async function getBlocks(fromBlock, toBlock) {
     const blocks = responses.slice(0, -1).map(res => res.result).map(block => {
         return Object.assign(block, {
             number:    parseInt16(block.number),
-            timestamp: parseInt16(block.timestamp)
+            timestamp: parseInt16(block.timestamp),
+            logs:      []
         });
     });
 
@@ -219,7 +220,7 @@ Eth.prototype.getBlocks = async function getBlocks(fromBlock, toBlock) {
             throw `Error during fetch of logs. Log block hash (${log.blockHash}) differs from block hash (${block.hash})`;
         }
 
-        return block.logs
+        return (block.logs.length === 0)
             ? block.logs.push(log)
             : block.logs = [...[log]];
     });

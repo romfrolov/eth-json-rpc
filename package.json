@@ -1,6 +1,6 @@
 {
   "name": "eth-json-rpc",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Lightweight wrapper library on top of Ethereum JSON RPC.",
   "main": "index.js",
   "directories": {
@@ -10,7 +10,8 @@
   "scripts": {
     "test": "mocha",
     "docs": "jsdoc -c .jsdocrc",
-    "http-docs": "PORT=${PORT:-8080}; http-server -p $PORT docs"
+    "http-docs": "PORT=${PORT:-8080}; http-server -p $PORT docs",
+    "coverage": "nyc --reporter=html npm run test"
   },
   "repository": {
     "type": "git",
