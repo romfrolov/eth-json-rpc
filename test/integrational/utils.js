@@ -10,7 +10,7 @@ const ethRpc = require('../../lib/eth-json-rpc');
 
 const contract = require('../resources/testContract');
 
-describe('eth', () => {
+describe('utils', () => {
     const ZERO_ADDRESS    = '0x0000000000000000000000000000000000000000';
     const INVALID_ADDRESS = '0x0ccaf8cb1c92aef64dd36ce1f3882d195180ad5'; // Invalid length.
     const VALID_ADDRESS   = '0x0ccaf8cb1c92aef64dd36ce1f3882d195180ad5c';
