@@ -41,7 +41,7 @@ describe('Generation of method signatures', () => {
     });
 });
 
-describe('Abi decoding', () => {
+describe('ABI decoding', () => {
     it('string', () => {
         const outputParameters = ['string'];
         const originalData = generator.generateByTypes(outputParameters);

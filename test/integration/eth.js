@@ -1,7 +1,7 @@
 /**
  * Test which covers communication with Ethereum RPC eth API.
  *
- * @module test/integrational/eth
+ * @module test/integration/eth
  */
 
 'use strict';

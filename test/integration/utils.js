@@ -1,7 +1,7 @@
 /**
  * Test which covers auxiliary functionality.
  *
- * @module test/integrational/utils
+ * @module test/integration/utils
  */
 
 'use strict';
