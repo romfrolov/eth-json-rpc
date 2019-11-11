@@ -72,6 +72,16 @@ describe('eth', () => {
         gasPrice.should.be.equal('0x77359400');
     });
 
+    it('[eth_sendRawTransaction,eth_getTransactionReceipt] create contract (no data)', async () => {
+        try {
+            await ethRpc.eth.transaction({privateKey: PRIVATE_KEY});
+
+            throw null;
+        } catch (error) {
+            error.should.be.equal('Either "data" or "to" with "methodSignature" is required');
+        }
+    });
+
     it('[eth_sendRawTransaction,eth_getTransactionReceipt] create contract', async () => {
         const transactionHash = await ethRpc.eth.transaction({privateKey: PRIVATE_KEY, data: contract.bytecode});
 
@@ -92,10 +102,52 @@ describe('eth', () => {
         isContract.should.be.equal(true);
     });
 
+    it('[eth_call] (invalid type of blockNumber)', async () => {
+        const blockNumber = 1;
+
+        try {
+            await ethRpc.eth.call({methodSignature: 'totalSupply()', to: contractAddress, blockNumber});
+
+            throw null;
+        } catch (error) {
+            error.should.be.equal(`Expected hex, got: ${blockNumber} (type ${typeof(blockNumber)})`);
+        }
+    });
+
+    it('[eth_call] (no to)', async () => {
+        try {
+            await ethRpc.eth.call({methodSignature: 'totalSupply()'});
+
+            throw null;
+        } catch (error) {
+            error.should.be.equal('"to" is required');
+        }
+    });
+
+    it('[eth_call] (no methodSignature)', async () => {
+        try {
+            await ethRpc.eth.call({to: contractAddress});
+
+            throw null;
+        } catch (error) {
+            error.should.be.equal('"methodSignature" is required');
+        }
+    });
+
     it('[eth_call]', async () => {
         const totalSupply = await ethRpc.eth.call({methodSignature: 'totalSupply()', to: contractAddress});
 
         totalSupply.should.be.equal('0x00000000000000000000000000000000000000000000d3c21bcecceda1000000');
+    });
+
+    it('[eth_sendRawTransaction] send transaction to contract\'s method (no private key)', async () => {
+        try {
+            await ethRpc.eth.transaction({methodSignature: 'mint(uint256)', args: [100], to: contractAddress});
+
+            throw null;
+        } catch (error) {
+            error.should.be.equal('"privateKey" is required');
+        }
     });
 
     it('[eth_sendRawTransaction] send transaction to contract\'s method', async () => {

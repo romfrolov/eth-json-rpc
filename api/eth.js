@@ -85,8 +85,6 @@ Eth.prototype.call = async function call({to, methodSignature, args = [], blockN
  * const transactionHash = await ethRpc.eth.transaction({methodSignature: 'mint(uint256)', to: CONTRACT_ADDRESS, args: [100], privateKey: PRIVATE_KEY});
  */
 Eth.prototype.transaction = async function transaction({to, privateKey, methodSignature, args = [], nonce, value = '0x', gasLimit, gasPrice, data}) {
-    data = data || utils.encodeTxData(methodSignature, args);
-
     if (!privateKey) {
         throw '"privateKey" is required';
     }
@@ -94,6 +92,8 @@ Eth.prototype.transaction = async function transaction({to, privateKey, methodSi
     if (!data && (!to || !methodSignature)) {
         throw 'Either "data" or "to" with "methodSignature" is required';
     }
+
+    data = data || utils.encodeTxData(methodSignature, args);
 
     if (!Buffer.isBuffer(privateKey)) {
         privateKey = Buffer.from(privateKey, 'hex');
@@ -176,8 +176,8 @@ Eth.prototype.blockNumber = function blockNumber() {
  * Get block by number.
  * @method eth_getBlockByNumber
  *
- * @param  {Number} blockNumber Block number.
- * @return {Promise<Object>}    Block.
+ * @param  {Number}          blockNumber Block number.
+ * @return {Promise<Object>}             Block.
  */
 Eth.prototype.getBlock = function getBlock(blockNumber) {
     return this.rpc('eth_getBlockByNumber', ['0x' + blockNumber.toString(16), true])
@@ -192,9 +192,9 @@ Eth.prototype.getBlock = function getBlock(blockNumber) {
  * Get logs from blocks.
  * @method eth_getlogs
  *
- * @param  {Number} fromBlock  Number of first block.
- * @param  {Number} toBlock    Number of last block.
- * @return {Promise<Object[]>} Logs.
+ * @param  {Number}            fromBlock Number of first block.
+ * @param  {Number}            toBlock   Number of last block.
+ * @return {Promise<Object[]>}           Logs.
  */
 Eth.prototype.getLogs = function getLogs(fromBlock, toBlock) {
     return this.rpc('eth_getLogs', [formatLogOptions(fromBlock, toBlock)]);
@@ -205,9 +205,9 @@ Eth.prototype.getLogs = function getLogs(fromBlock, toBlock) {
  * @method eth_getBlockByNumber
  * @method eth_getLogs
  *
- * @param  {Number} fromBlock  Number of first block.
- * @param  {Number} toBlock    Number of last block.
- * @return {Promise<Object[]>} Blocks and logs.
+ * @param  {Number}            fromBlock Number of first block.
+ * @param  {Number}            toBlock   Number of last block.
+ * @return {Promise<Object[]>}           Blocks with logs.
  */
 Eth.prototype.getBlocks = async function getBlocks(fromBlock, toBlock) {
     let batch = [];
@@ -254,8 +254,8 @@ Eth.prototype.getBlocks = async function getBlocks(fromBlock, toBlock) {
  * @method eth_getBlockByNumber
  * @method eth_getLogs
  *
- * @param  {Number[]} blockNumbers Array of block numbers to index.
- * @return {Object[]}              Blocks and logs.
+ * @param  {Number[]}          blockNumbers Array of block numbers to index.
+ * @return {Promise<Object[]>}              Blocks with logs.
  */
 Eth.prototype.getBlocksFromArray = async function getBlocksFromArray(blockNumbers) {
     let batch = [];
