@@ -283,43 +283,6 @@ Eth.prototype.getBlocksFromArray = async function getBlocksFromArray(blockNumber
 };
 
 /**
- * Instantiate a contract using ABI and address.
- *
- * @param  {Object[]} abi     ABI of a contract.
- * @param  {String}   address Address of a deployed contract.
- * @return {Object}           Contract instance.
- */
-Eth.prototype.Contract = function Contract(abi, address) {
-    // QUESTION Pass and bind private key?
-
-    // Case when no address is passed.
-    if (!address) {
-        // TODO
-    }
-
-    const instance = {};
-
-    for (const method of abi) {
-        // TODO Case when method name is not unique.
-
-        if (method.name) {
-            instance[method.name] = {
-                call: () => {
-                    // TODO Method implementation.
-                    // TODO Default call properties.
-                },
-                transaction: () => {
-                    // TODO Method implementation.
-                    // TODO Default transaction properties.
-                }
-            };
-        }
-    }
-
-    return instance;
-};
-
-/**
  * Format log options.
  *
  * @param  {Number} fromBlock Number of first block.
