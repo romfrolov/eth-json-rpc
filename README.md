@@ -21,12 +21,12 @@ const ethRpc = require('eth-json-rpc')('https://mainnet.infura.io');
     console.log(blockNumber); // 7280000
 
     // Call contract method.
-    const totalSupply = await ethRpc.eth.call('totalSupply()', CONTRACT_ADDRESS);
+    const totalSupply = await ethRpc.eth.call({methodSignature: 'totalSupply()', to: CONTRACT_ADDRESS});
 
     console.log(totalSupply); // 0x00000000000000000000000000000000000000000000d3c21bcecceda1000000
 
     // Send transaction to contract.
-     const transactionHash = await ethRpc.eth.transaction('mint(uint256)', CONTRACT_ADDRESS, [100], PRIVATE_KEY);
+     const transactionHash = await ethRpc.eth.transaction({methodSignature: 'mint(uint256)', to: CONTRACT_ADDRESS, args: [100], privateKey: PRIVATE_KEY});
 
      console.log(transactionHash); // 0x36af4c76dd7f2a204b1a340fb6327ae8ff9e2efe2f974b054d3a36314635a10c
 

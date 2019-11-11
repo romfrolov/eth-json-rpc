@@ -33,8 +33,8 @@ function isZeroAddress(address) {
 /**
  * Validate address.
  *
- * @param  {String} address Ethereum address.
- * @return {Boolean}        Whether address is valid.
+ * @param  {String}  address Ethereum address.
+ * @return {Boolean}         Whether address is valid.
  */
 function isValidAddress(address) {
     return address
@@ -57,8 +57,8 @@ exports.getMethodOutputParameters = function (contractAbi, method) {
 /**
  * Decode raw data returned from the contract call.
  *
- * @param  {String[]} types     Parameter types.
- * @param  {String}   rawOutput Raw output data.
+ * @param  {String[]}    types     Parameter types.
+ * @param  {String}      rawOutput Raw output data.
  * @return {String|Bool}
  */
 exports.decodeRawOutput = function decodeRawOutput(types, rawOutput) {
