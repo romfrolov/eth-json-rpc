@@ -73,7 +73,7 @@ describe('eth', () => {
     });
 
     it('[eth_sendRawTransaction,eth_getTransactionReceipt] create contract', async () => {
-        const transactionHash = await ethRpc.eth.transaction(null, null, null, PRIVATE_KEY, null, null, null, null, contract.bytecode);
+        const transactionHash = await ethRpc.eth.transaction({privateKey: PRIVATE_KEY, data: contract.bytecode});
 
         transactionHash.should.be.equal('0xf215270841a77eb9757903e99786897a6aab784ff1041438c5ff5a50fadc0cde');
 
@@ -93,13 +93,13 @@ describe('eth', () => {
     });
 
     it('[eth_call]', async () => {
-        const totalSupply = await ethRpc.eth.call('totalSupply()', contractAddress);
+        const totalSupply = await ethRpc.eth.call({methodSignature: 'totalSupply()', to: contractAddress});
 
         totalSupply.should.be.equal('0x00000000000000000000000000000000000000000000d3c21bcecceda1000000');
     });
 
-    it('[eth_sendRawTransaction] call method', async () => {
-        const transactionHash = await ethRpc.eth.transaction('mint(uint256)', contractAddress, [100], PRIVATE_KEY);
+    it('[eth_sendRawTransaction] send transaction to contract\'s method', async () => {
+        const transactionHash = await ethRpc.eth.transaction({methodSignature: 'mint(uint256)', args: [100], to: contractAddress, privateKey: PRIVATE_KEY});
 
         transactionHash.should.be.equal('0x36af4c76dd7f2a204b1a340fb6327ae8ff9e2efe2f974b054d3a36314635a10c');
     });

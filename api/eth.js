@@ -36,16 +36,23 @@ function Eth(command) {
  * Call contract method.
  * @method eth_call
  *
- * @param  {String}   methodSignature        Method signature to call.
- * @param  {String}   to                     Address of receiver of call.
- * @param  {Object[]} [args=[]]              Arguments to pass with a call.
- * @param  {String}   [blockNumber='latest'] Hexadecimal block number with 0x prefix.
- * @return {Promise<String>}                 ETH RPC response result.
+ * @param  {Object}          opts                        Options object.
+ * @param  {String}          opts.to                     Address of receiver of call.
+ * @param  {String}          opts.methodSignature        Method signature to call.
+ * @param  {Object[]}        [opts.args=[]]              Arguments to pass with a call.
+ * @param  {String}          [opts.blockNumber='latest'] Hexadecimal block number with 0x prefix.
+ * @return {Promise<String>}                             ETH RPC response result.
+ *
+ * @example
+ * const totalSupply = await ethRpc.eth.call({methodSignature: 'totalSupply()', to: CONTRACT_ADDRESS});
  */
-Eth.prototype.call = async function call(methodSignature, to, args=[], blockNumber='latest') {
+Eth.prototype.call = async function call({to, methodSignature, args = [], blockNumber = 'latest'}) {
     if (blockNumber !== 'latest' && !utils.isHex(blockNumber)) {
         throw `Expected hex, got: ${blockNumber} (type ${typeof(blockNumber)})`;
     }
+
+    // TODO "to" must be provided.
+    // TODO "methodSignature" must be provided.
 
     const data = utils.encodeTxData(methodSignature, args);
 
@@ -57,22 +64,27 @@ Eth.prototype.call = async function call(methodSignature, to, args=[], blockNumb
  * Create transaction object, sign transaction, serialize transaction, send transaction.
  * @method eth_sendRawTransaction
  *
- * @param  {String}        methodSignature Method signature to call.
- * @param  {String}        to              Address of receiver of call.
- * @param  {Object[]}      [args=[]]       Arguments to send.
- * @param  {String|Buffer} privateKey      Private key to sign transaction.
- * @param  {String}        nonce           Sender nonce.
- * @param  {String}        value           Value to send.
- * @param  {String}        gas             Gas limit.
- * @param  {String}        gasPrice        Gas price.
- * @param  {String}        data            Transaction data.
- * @return {Promise<String>}               Transaction hash.
+ * @param  {Object}          opts                   Options object.
+ * @param  {String|Buffer}   opts.privateKey        Private key to sign transaction.
+ * @param  {String}          [opts.to]              Address of receiver of call.
+ * @param  {String}          [opts.methodSignature] Method signature to call.
+ * @param  {Object[]}        [opts.args=[]]         Arguments to send.
+ * @param  {String}          [opts.nonce]           Sender nonce.
+ * @param  {String}          [opts.value='0x']      Value to send.
+ * @param  {String}          [opts.gasLimit]        Gas limit.
+ * @param  {String}          [opts.gasPrice]        Gas price.
+ * @param  {String}          [opts.data]            Transaction data.
+ * @return {Promise<String>}                        Transaction hash.
  *
  * @example
- * const transactionHash = await ethRpc.eth.transaction('mint(uint256)', CONTRACT_ADDRESS, [100], PRIVATE_KEY);
+ * const transactionHash = await ethRpc.eth.transaction({methodSignature: 'mint(uint256)', to: CONTRACT_ADDRESS, args: [100], privateKey: PRIVATE_KEY});
  */
-Eth.prototype.transaction = async function transaction(methodSignature, to, args=[], privateKey, nonce, value, gas, gasPrice, data) {
+Eth.prototype.transaction = async function transaction({to, privateKey, methodSignature, args = [], nonce, value = '0x', gasLimit, gasPrice, data}) {
     data = data || utils.encodeTxData(methodSignature, args);
+
+    // TODO "privateKey" must be provided.
+    // TODO Either "methodSignature" or "data" must be provided.
+    // TODO If "methodSignature" is provided "to" must be provided as well.
 
     if (!Buffer.isBuffer(privateKey)) {
         privateKey = Buffer.from(privateKey, 'hex');
@@ -87,9 +99,9 @@ Eth.prototype.transaction = async function transaction(methodSignature, to, args
         to,
         data,
         nonce,
-        gas: gas || DEFAULT_GAS_LIMIT,
+        gas: gasLimit || DEFAULT_GAS_LIMIT,
         gasPrice,
-        value: value || '0x'
+        value
     });
 
     tx.sign(privateKey);
@@ -111,8 +123,8 @@ Eth.prototype.gasPrice = function gasPrice() {
  * Get code at address.
  * @method eth_getCode
  *
- * @param  {String} address  Ethereum address.
- * @return {Promise<String>} Code from the given address.
+ * @param  {String}          address Ethereum address.
+ * @return {Promise<String>}         Code from the given address.
  */
 Eth.prototype.getCode = async function getCode(address) {
     return this.rpc('eth_getCode', [address, 'latest']);
@@ -122,7 +134,7 @@ Eth.prototype.getCode = async function getCode(address) {
  * Get transaction receipt.
  * @method eth_getTransactionReceipt
  *
- * @param  {String} transactionHash Transaction hash.
+ * @param  {String}          transactionHash Transaction hash.
  * @return {Promise<String>}
  */
 Eth.prototype.getTransactionReceipt = function getTransactionReceipt(transactionHash) {
@@ -133,11 +145,11 @@ Eth.prototype.getTransactionReceipt = function getTransactionReceipt(transaction
  * Get number of transactions the address sent.
  * @method eth_getTransactionCount
  *
- * @param  {String} address
- * @param  {String} [bn='latest'] Block number. Hexadecimal string padded with 0x.
+ * @param  {String}          address
+ * @param  {String}          [bn='latest'] Block number. Hexadecimal string padded with 0x.
  * @return {Promise<String>}
  */
-Eth.prototype.getTransactionCount = function getTransactionCount(address, bn='latest') {
+Eth.prototype.getTransactionCount = function getTransactionCount(address, bn = 'latest') {
     return this.rpc('eth_getTransactionCount', [address, bn]);
 };
 
