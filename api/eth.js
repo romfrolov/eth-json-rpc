@@ -51,8 +51,13 @@ Eth.prototype.call = async function call({to, methodSignature, args = [], blockN
         throw `Expected hex, got: ${blockNumber} (type ${typeof(blockNumber)})`;
     }
 
-    // TODO "to" must be provided.
-    // TODO "methodSignature" must be provided.
+    if (!to) {
+        throw '"to" is required';
+    }
+
+    if (!methodSignature) {
+        throw '"methodSignature" is required';
+    }
 
     const data = utils.encodeTxData(methodSignature, args);
 
@@ -82,9 +87,13 @@ Eth.prototype.call = async function call({to, methodSignature, args = [], blockN
 Eth.prototype.transaction = async function transaction({to, privateKey, methodSignature, args = [], nonce, value = '0x', gasLimit, gasPrice, data}) {
     data = data || utils.encodeTxData(methodSignature, args);
 
-    // TODO "privateKey" must be provided.
-    // TODO Either "methodSignature" or "data" must be provided.
-    // TODO If "methodSignature" is provided "to" must be provided as well.
+    if (!privateKey) {
+        throw '"privateKey" is required';
+    }
+
+    if (!data && (!to || !methodSignature)) {
+        throw 'Either "data" or "to" with "methodSignature" is required';
+    }
 
     if (!Buffer.isBuffer(privateKey)) {
         privateKey = Buffer.from(privateKey, 'hex');
