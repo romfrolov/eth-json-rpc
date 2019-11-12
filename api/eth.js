@@ -48,7 +48,7 @@ function Eth(command) {
  */
 Eth.prototype.call = async function call({to, methodSignature, args = [], blockNumber = 'latest'}) {
     if (blockNumber !== 'latest' && !utils.isHex(blockNumber)) {
-        throw `Expected hex, got: ${blockNumber} (type ${typeof(blockNumber)})`;
+        throw `Expected "blockNumber" to be of type hex, got: ${blockNumber} (type ${typeof(blockNumber)})`;
     }
 
     if (!to) {
@@ -91,6 +91,26 @@ Eth.prototype.transaction = async function transaction({to, privateKey, methodSi
 
     if (!data && (!to || !methodSignature)) {
         throw 'Either "data" or "to" with "methodSignature" is required';
+    }
+
+    if (nonce && !utils.isHex(nonce)) {
+        throw `Expected "nonce" to be of type hex, got: ${nonce} (type ${typeof(nonce)})`;
+    }
+
+    if (!utils.isHex(value) && (value !== '0x')) {
+        throw `Expected "value" to be of type hex, got: ${value} (type ${typeof(value)})`;
+    }
+
+    if (gasLimit && !utils.isHex(gasLimit)) {
+        throw `Expected "gasLimit" to be of type hex, got: ${gasLimit} (type ${typeof(gasLimit)})`;
+    }
+
+    if (gasPrice && !utils.isHex(gasPrice)) {
+        throw `Expected "gasPrice" to be of type hex, got: ${gasPrice} (type ${typeof(gasPrice)})`;
+    }
+
+    if (data && !utils.isHex(data)) {
+        throw `Expected "data" to be of type hex, got: ${data} (type ${typeof(data)})`;
     }
 
     data = data || utils.encodeTxData(methodSignature, args);

@@ -72,7 +72,7 @@ describe('eth', () => {
         gasPrice.should.be.equal('0x77359400');
     });
 
-    it('[eth_sendRawTransaction,eth_getTransactionReceipt] create contract (no data)', async () => {
+    it('[eth_sendRawTransaction] create contract (no "data")', async () => {
         try {
             await ethRpc.eth.transaction({privateKey: PRIVATE_KEY});
 
@@ -102,7 +102,7 @@ describe('eth', () => {
         isContract.should.be.equal(true);
     });
 
-    it('[eth_call] (invalid type of blockNumber)', async () => {
+    it('[eth_call] (invalid type of "blockNumber")', async () => {
         const blockNumber = 1;
 
         try {
@@ -110,11 +110,11 @@ describe('eth', () => {
 
             throw null;
         } catch (error) {
-            error.should.be.equal(`Expected hex, got: ${blockNumber} (type ${typeof(blockNumber)})`);
+            error.should.be.equal(`Expected "blockNumber" to be of type hex, got: ${blockNumber} (type ${typeof(blockNumber)})`);
         }
     });
 
-    it('[eth_call] (no to)', async () => {
+    it('[eth_call] (no "to")', async () => {
         try {
             await ethRpc.eth.call({methodSignature: 'totalSupply()'});
 
@@ -124,7 +124,7 @@ describe('eth', () => {
         }
     });
 
-    it('[eth_call] (no methodSignature)', async () => {
+    it('[eth_call] (no "methodSignature")', async () => {
         try {
             await ethRpc.eth.call({to: contractAddress});
 
@@ -140,13 +140,73 @@ describe('eth', () => {
         totalSupply.should.be.equal('0x00000000000000000000000000000000000000000000d3c21bcecceda1000000');
     });
 
-    it('[eth_sendRawTransaction] send transaction to contract\'s method (no private key)', async () => {
+    it('[eth_sendRawTransaction] send transaction to contract\'s method (no "privateKey")', async () => {
         try {
             await ethRpc.eth.transaction({methodSignature: 'mint(uint256)', args: [100], to: contractAddress});
 
             throw null;
         } catch (error) {
             error.should.be.equal('"privateKey" is required');
+        }
+    });
+
+    it('[eth_sendRawTransaction] send transaction to contract\'s method (invalid "nonce" type)', async () => {
+        const nonce = 1;
+
+        try {
+            await ethRpc.eth.transaction({methodSignature: 'mint(uint256)', args: [100], to: contractAddress, privateKey: PRIVATE_KEY, nonce});
+
+            throw null;
+        } catch (error) {
+            error.should.be.equal(`Expected "nonce" to be of type hex, got: ${nonce} (type ${typeof(nonce)})`);
+        }
+    });
+
+    it('[eth_sendRawTransaction] send transaction to contract\'s method (invalid "value" type)', async () => {
+        const value = 1;
+
+        try {
+            await ethRpc.eth.transaction({methodSignature: 'mint(uint256)', args: [100], to: contractAddress, privateKey: PRIVATE_KEY, value});
+
+            throw null;
+        } catch (error) {
+            error.should.be.equal(`Expected "value" to be of type hex, got: ${value} (type ${typeof(value)})`);
+        }
+    });
+
+    it('[eth_sendRawTransaction] send transaction to contract\'s method (invalid "gasLimit" type)', async () => {
+        const gasLimit = 1;
+
+        try {
+            await ethRpc.eth.transaction({methodSignature: 'mint(uint256)', args: [100], to: contractAddress, privateKey: PRIVATE_KEY, gasLimit});
+
+            throw null;
+        } catch (error) {
+            error.should.be.equal(`Expected "gasLimit" to be of type hex, got: ${gasLimit} (type ${typeof(gasLimit)})`);
+        }
+    });
+
+    it('[eth_sendRawTransaction] send transaction to contract\'s method (invalid "gasPrice" type)', async () => {
+        const gasPrice = 1;
+
+        try {
+            await ethRpc.eth.transaction({methodSignature: 'mint(uint256)', args: [100], to: contractAddress, privateKey: PRIVATE_KEY, gasPrice});
+
+            throw null;
+        } catch (error) {
+            error.should.be.equal(`Expected "gasPrice" to be of type hex, got: ${gasPrice} (type ${typeof(gasPrice)})`);
+        }
+    });
+
+    it('[eth_sendRawTransaction] send transaction to contract\'s method (invalid "data" type)', async () => {
+        const data = 1;
+
+        try {
+            await ethRpc.eth.transaction({methodSignature: 'mint(uint256)', args: [100], to: contractAddress, privateKey: PRIVATE_KEY, data});
+
+            throw null;
+        } catch (error) {
+            error.should.be.equal(`Expected "data" to be of type hex, got: ${data} (type ${typeof(data)})`);
         }
     });
 
