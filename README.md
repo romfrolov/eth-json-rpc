@@ -1,6 +1,6 @@
 # ETH RPC
 
-![](https://github.com/romfrolov/eth-json-rpc/workflows/build/badge.svg) [![npm version](https://badge.fury.io/js/eth-json-rpc.svg)](https://badge.fury.io/js/eth-json-rpc) [![Coverage Status](https://coveralls.io/repos/github/romfrolov/eth-json-rpc/badge.svg?branch=master)](https://coveralls.io/github/romfrolov/eth-json-rpc?branch=master)
+![](https://github.com/romfrolov/eth-json-rpc/workflows/build/badge.svg) [![npm version](https://badge.fury.io/js/eth-json-rpc.svg)](https://badge.fury.io/js/eth-json-rpc) [![Coverage Status](https://coveralls.io/repos/github/romfrolov/eth-json-rpc/badge.svg?branch=master)](https://coveralls.io/github/romfrolov/eth-json-rpc?branch=master) [![install size](https://packagephobia.now.sh/badge?p=eth-json-rpc)](https://packagephobia.now.sh/result?p=eth-json-rpc)
 
 Lightweight wrapper library on top of [Ethereum JSON RPC](https://github.com/ethereum/wiki/wiki/JSON-RPC).
 
