@@ -1,6 +1,6 @@
 {
   "name": "eth-json-rpc",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Lightweight wrapper library on top of Ethereum JSON RPC.",
   "main": "index.js",
   "directories": {
